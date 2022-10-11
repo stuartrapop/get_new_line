@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 16:53:11 by srapopor          #+#    #+#             */
-/*   Updated: 2022/10/11 17:59:31 by srapopor         ###   ########.fr       */
+/*   Created: 2022/10/11 17:31:59 by srapopor          #+#    #+#             */
+/*   Updated: 2022/10/11 17:55:04 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	ft_refresh_buffer(char **buffer, int fd)
 	if (*buffer == NULL || ft_strlen(*buffer) == 0)
 	{
 		read_size = read(fd, newbuffer, BUFFER_SIZE);
-		printf("read size lenght %d\n", read_size);
+		// if (read_size <= 0)
+		// 	return (-1);
 		newbuffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!newbuffer)
 			return (0);
@@ -64,8 +65,8 @@ int	ft_refresh_buffer(char **buffer, int fd)
 		if (*buffer != NULL)
 			free (*buffer);
 		*buffer = newbuffer;
-		if (read_size == 0)
-			return (0);
+		// if (read_size == 0)
+		// 	return (0);
 	}
 	return (1);
 }
@@ -124,60 +125,4 @@ char	*ft_strjoin(char *str1, char *str2)
 	free(str1);
 	free(str2);
 	return (new_string);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*buffer;
-	int			index1;
-	int			index2;
-	char		*part_line;
-	char		*full_line;
-	int 		line_found;
-	int			refresh_response;
-
-	line_found = 0;
-	full_line = NULL;
-	while (line_found == 0)
-	{
-		refresh_response = ft_refresh_buffer(&buffer, fd);
-		printf("after refresh\nsize %d , buffer %s\n", refresh_response, buffer);
-		index1 = 0;
-		index2 = 0;
-		if (refresh_response)
-		{
-			while (buffer[index1] != '\n' && buffer[index1] != '\0')
-				index1++;
-			part_line = malloc(sizeof(char) * (index1 + 1));
-			if(!part_line)
-				return (NULL);
-			while (index2 < index1)
-			{
-				part_line[index2] = buffer[index2];
-				index2++;
-			}
-			part_line[index2] = '\0';
-		}
-		if (buffer[index1] == '\n' || refresh_response == 0)
-			line_found = 1;
-		if (buffer[index1] == '\n')
-			index1++;
-		ft_trim_buffer(&buffer, index1);
-		printf("buffer after trim : %s\n", buffer);
-		full_line = ft_strjoin(full_line, part_line);
-	}
-	return (full_line);
-}
-
-int	main(void)
-{
-	int	fd;
-
-	fd = open("test.txt", O_RDONLY);
-	printf("1 : %s\n",get_next_line(fd));
-	printf("2 : %s\n",get_next_line(fd));
-	printf("3 : %s\n",get_next_line(fd));
-	printf("4 : %s\n",get_next_line(fd));
-	printf("5 : %s\n",get_next_line(fd));
-	close(fd);
 }
