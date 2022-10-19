@@ -1,6 +1,0 @@
-The openat() function is equivalent to the open() function except in the case where the path specifies a
-relative path.  In this case the file to be opened is determined relative to the directory associated with
-the file descriptor fd instead of the current working directory.  The oflag argument and the optional
-fourth argument correspond exactly to the arguments for open().  If openat() is passed the special value
-AT_FDCWD in the fd argument, the current working directory is used and the behavior is identical to a call
-to open().
