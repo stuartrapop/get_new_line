@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stuartrapoport <stuartrapoport@student.    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:53:11 by srapopor          #+#    #+#             */
-/*   Updated: 2022/10/16 16:35:01 by stuartrapop      ###   ########.fr       */
+/*   Updated: 2022/10/19 12:27:43 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,42 +111,42 @@ char	*ft_get_after_nl(char *persist_value)
 
 char	*get_next_line(int fd)
 {
-	static char	*persist_value = NULL;
+	static char	*persist_value[4096];
 	char		*full_line;
 	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	full_line = NULL;
-	ft_read_line(fd, &persist_value);
-	if (persist_value == NULL)
+	ft_read_line(fd, &persist_value[fd]);
+	if (persist_value[fd] == NULL)
 		return (NULL);
-	full_line = ft_get_before_nl(persist_value);
-	tmp = ft_get_after_nl(persist_value);
+	full_line = ft_get_before_nl(persist_value[fd]);
+	tmp = ft_get_after_nl(persist_value[fd]);
 	if (!full_line || *full_line == '\0')
 	{
-		ft_free_strs(&persist_value, &full_line, &tmp);
+		ft_free_strs(&persist_value[fd], &full_line, &tmp);
 		return (NULL);
 	}
-	ft_free_strs(&persist_value, 0, 0);
-	persist_value = tmp;
+	ft_free_strs(&persist_value[fd], 0, 0);
+	persist_value[fd] = tmp;
 	return (full_line);
 }
 
-int	main(int argc, char **argv)
-{
-	int		fd;
-	char	*line;
+// int	main(int argc, char **argv)
+// {
+// 	int		fd;
+// 	char	*line;
 
-	(void) argc;
-	fd = open(argv[1], O_RDONLY);
-	line = "";
-	while (line != NULL)
-	{
-		line = get_next_line(fd);
-		printf("%s", line);
-	}
-	printf("BUFFER_SIZE %d\n", BUFFER_SIZE);
-	fd = close(fd);
-	return (0);
-}
+// 	(void) argc;
+// 	fd = open(argv[1], O_RDONLY);
+// 	line = "";
+// 	while (line != NULL)
+// 	{
+// 		line = get_next_line(fd);
+// 		printf("%s", line);
+// 	}
+// 	printf("BUFFER_SIZE %d\n", BUFFER_SIZE);
+// 	fd = close(fd);
+// 	return (0);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stuartrapoport <stuartrapoport@student.    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:53:11 by srapopor          #+#    #+#             */
-/*   Updated: 2022/10/16 16:38:03 by stuartrapop      ###   ########.fr       */
+/*   Updated: 2022/10/19 11:02:49 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,20 +133,20 @@ char	*get_next_line(int fd)
 	return (full_line);
 }
 
-int	main(int argc, char **argv)
-{
-	int		fd;
-	char	*line;
+// int	main(int argc, char **argv)
+// {
+// 	int		fd;
+// 	char	*line;
 
-	(void) argc;
-	fd = open(argv[1], O_RDONLY);
-	line = "";
-	while (line != NULL)
-	{
-		line = get_next_line(fd);
-		printf("%s", line);
-	}
-	printf("BUFFER_SIZE %d\n", BUFFER_SIZE);
-	fd = close(fd);
-	return (0);
-}
+// 	(void) argc;
+// 	fd = open(argv[1], O_RDONLY);
+// 	line = "";
+// 	while (line != NULL)
+// 	{
+// 		line = get_next_line(fd);
+// 		printf("%s", line);
+// 	}
+// 	printf("BUFFER_SIZE %d\n", BUFFER_SIZE);
+// 	fd = close(fd);
+// 	return (0);
+// }
